@@ -1,6 +1,6 @@
 {
   "name": "@outofgas/hooks",
-  "version": "0.1.1",
+  "version": "0.1.4",
   "private": false,
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -8,14 +8,18 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
     }
   },
+  "files": [
+    "dist/**"
+  ],
   "scripts": {
     "lint": "eslint . --max-warnings 0",
     "generate:component": "turbo gen react-component",
     "check-types": "tsc --noEmit",
-    "build": "tsup src/index.ts --format esm --dts --platform=browser"
+    "build": "tsup src/index.ts --format esm,cjs --dts --platform=browser"
   },
   "devDependencies": {
     "@outofgas/abi": "^0.1.0",
