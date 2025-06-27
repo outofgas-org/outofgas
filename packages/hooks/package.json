@@ -1,0 +1,39 @@
+{
+  "name": "@outofgas/hooks",
+  "version": "0.1.0",
+  "private": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./hooks": {
+      "types": "./dist/hooks/index.d.ts",
+      "import": "./dist/hooks/index.js"
+    }
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "generate:component": "turbo gen react-component",
+    "check-types": "tsc --noEmit",
+    "build": "tsup src/index.ts --format esm --dts --platform=browser"
+  },
+  "devDependencies": {
+    "@outofgas/abi": "^0.1.0",
+    "@outofgas/contracts": "^0.1.0",
+    "@outofgas/eslint-config": "*",
+    "@outofgas/typescript-config": "*",
+    "@turbo/gen": "^2.5.0",
+    "@types/node": "^22.15.3",
+    "@types/react": "19.1.0",
+    "@types/react-dom": "19.1.1",
+    "eslint": "^9.29.0",
+    "typescript": "5.8.2"
+  },
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "tsup": "^8.5.0",
+    "wagmi": "^2.15.6"
+  }
+}
