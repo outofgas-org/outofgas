@@ -1,15 +1,14 @@
 {
   "name": "@outofgas/hooks",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
-    },
-    "./hooks": {
-      "types": "./dist/hooks/index.d.ts",
-      "import": "./dist/hooks/index.js"
     }
   },
   "scripts": {
