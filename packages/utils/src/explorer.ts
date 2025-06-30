@@ -1,5 +1,13 @@
 import { hyperevm } from "./hyperevm";
-import { Chain, mainnet, optimism, arbitrum, base, polygon } from "viem/chains";
+import {
+  Chain,
+  mainnet,
+  optimism,
+  arbitrum,
+  base,
+  polygon,
+  bsc,
+} from "viem/chains";
 
 /**
  * Get the block explorer URL for a transaction hash on a specific chain
@@ -20,7 +28,10 @@ export function getExplorerTxUrl(chainId: number, txHash: string): string {
  * @param address The address
  * @returns The block explorer URL for the address
  */
-export function getExplorerAddressUrl(chainId: number, address: string): string {
+export function getExplorerAddressUrl(
+  chainId: number,
+  address: string,
+): string {
   const explorer = getExplorerBaseUrl(chainId);
   if (!explorer) return "";
 
@@ -33,7 +44,10 @@ export function getExplorerAddressUrl(chainId: number, address: string): string 
  * @param tokenAddress The token address
  * @returns The block explorer URL for the token
  */
-export function getExplorerTokenUrl(chainId: number, tokenAddress: string): string {
+export function getExplorerTokenUrl(
+  chainId: number,
+  tokenAddress: string,
+): string {
   const explorer = getExplorerBaseUrl(chainId);
   if (!explorer) return "";
 
@@ -60,6 +74,8 @@ function getExplorerBaseUrl(chainId: number): string | undefined {
       return polygon.blockExplorers.default.url;
     case hyperevm.id:
       return hyperevm.blockExplorers.default.url;
+    case bsc.id:
+      return bsc.blockExplorers.default.url;
     default:
       return undefined;
   }
