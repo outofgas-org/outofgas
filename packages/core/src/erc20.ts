@@ -1,6 +1,19 @@
 import { Address, erc20Abi, PublicClient, WalletClient } from "viem";
 
 export const erc20 = {
+  allowance: async (
+    publicClient: PublicClient,
+    token: Address,
+    owner: Address,
+    spender: Address,
+  ) => {
+    return await publicClient.readContract({
+      abi: erc20Abi,
+      address: token,
+      functionName: "allowance",
+      args: [owner, spender],
+    });
+  },
   approve: async (
     walletClient: WalletClient,
     publicClient: PublicClient,
