@@ -1,13 +1,13 @@
 import { Address } from "viem";
 import { useQuery } from "@tanstack/react-query";
-import { liquidswap } from "@outofgas/core";
+import { liquidswap, RouteResponse } from "@outofgas/core";
 
 export const useLiquidswapRoute = (
   tokenIn: Address,
   tokenOut: Address,
   amountIn: string,
   slippage: number = 0.5,
-) => {
+): { data: RouteResponse | undefined; isLoading: boolean } => {
   const { data, isLoading } = useQuery({
     queryKey: ["liquidswapRoute", tokenIn, tokenOut, amountIn, slippage],
     queryFn: async () => {
