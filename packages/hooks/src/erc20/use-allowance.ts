@@ -7,7 +7,7 @@ export const useAllowance = (
   token: Address,
   owner: Address,
   spender: Address,
-): { allowance: bigint | undefined; isLoading: boolean } => {
+): { allowance: bigint; isLoading: boolean } => {
   const publicClient = usePublicClient();
   const { data, isLoading } = useQuery({
     queryKey: ["erc20Allowance", token, owner, spender],
@@ -20,5 +20,5 @@ export const useAllowance = (
     enabled: !!token && !!owner && !!spender && !!publicClient,
   });
 
-  return { allowance: data, isLoading };
+  return { allowance: data ?? 0n, isLoading };
 };
