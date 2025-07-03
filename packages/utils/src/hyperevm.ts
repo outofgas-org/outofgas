@@ -16,7 +16,7 @@ export const hyperevm = defineChain({
   blockExplorers: {
     default: {
       name: "Purrsec",
-      url: "https://purrsec.com/",
+      url: "https://hyperscan.com/",
       apiUrl: "",
     },
   },
