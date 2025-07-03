@@ -6,10 +6,11 @@ export const liquidswap = {
     tokenIn: Address,
     tokenOut: Address,
     amountIn: string,
+    unwrapWHYPE: boolean = false,
     slippage: number = 0.5,
   ) => {
     return (await fetch(
-      `https://api.liqd.ag/v2/route?multiHop=true&tokenIn=${tokenIn}&tokenOut=${tokenOut}&amountIn=${amountIn}&slippage=${slippage}`,
+      `https://api.liqd.ag/v2/route?multiHop=true&tokenIn=${tokenIn}&tokenOut=${tokenOut}&amountIn=${amountIn}&slippage=${slippage}&unwrapWHYPE=${unwrapWHYPE}`,
     ).then((res) => res.json())) as RouteResponse;
   },
 };
