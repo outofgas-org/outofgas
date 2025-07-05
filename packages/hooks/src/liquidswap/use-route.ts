@@ -27,7 +27,7 @@ export const useLiquidswapRoute = (
         slippage,
       );
     },
-    enabled: !!tokenIn && !!tokenOut && !!amountIn,
+    enabled: !!tokenIn && !!tokenOut && !!amountIn && Number(amountIn) > 0,
   });
 
   return { data, isLoading };
