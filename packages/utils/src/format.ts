@@ -1,4 +1,5 @@
 import numeral from "numeral";
+import humanFormat from "human-format";
 
 export function ellipseAddress(
   address: string | null | undefined,
@@ -89,3 +90,33 @@ const subscript = (num: number): string => {
     .map((d) => map[d])
     .join("");
 };
+
+export const humanScale = new humanFormat.Scale({
+  B: 1e9,
+  M: 1e6,
+  K: 1e3,
+});
+
+/**
+ * Formats a numeric value into a human-readable string with scale indicators (K, M, B).
+ * Values less than 1000 are returned as-is, larger values use K (thousands),
+ * M (millions), or B (billions) suffixes.
+ *
+ * @param value - The numeric value to format
+ * @param options - Additional formatting options to pass to human-format
+ * @returns Formatted string with appropriate scale indicator
+ */
+export function formatHuman(
+  value: number | string | undefined,
+  options?: object,
+) {
+  const num = Number(value || 0);
+
+  if (num < 1000) return num.toString();
+
+  return humanFormat(Number(value || "0"), {
+    scale: humanScale,
+    separator: "",
+    ...options,
+  });
+}

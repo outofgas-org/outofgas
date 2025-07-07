@@ -24,8 +24,8 @@
   "devDependencies": {
     "@outofgas/abi": "^0.1.0",
     "@outofgas/contracts": "^0.1.0",
-    "@outofgas/eslint-config": "*",
     "@outofgas/core": "*",
+    "@outofgas/eslint-config": "*",
     "@outofgas/typescript-config": "*",
     "@turbo/gen": "^2.5.0",
     "@types/node": "^22.15.3",
@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.81.5",
+    "human-format": "^1.2.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "tsup": "^8.5.0",
