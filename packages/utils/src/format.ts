@@ -55,10 +55,13 @@ export function formatPrice(price: number | string | undefined | null): string {
     return numeral(p).format("0,0.000000");
   }
 
-  return formatPriceSubscript(price);
+  return formatPriceSubscript(price, 6);
 }
 
-export const formatPriceSubscript = (num: number | string): string => {
+export const formatPriceSubscript = (
+  num: number | string,
+  maxDecimals = 6,
+): string => {
   const str = typeof num === "number" ? num.toString() : num;
   if (!str.includes(".")) return str;
 
@@ -66,7 +69,7 @@ export const formatPriceSubscript = (num: number | string): string => {
   if (!match || match.length <= 1) return str;
 
   const zeroCount = match[1]?.length ?? 0;
-  const rest = match[2];
+  const rest = match[2]?.slice(0, maxDecimals);
 
   return `0.0${subscript(zeroCount)}${rest}`;
 };
