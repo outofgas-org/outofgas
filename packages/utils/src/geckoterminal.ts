@@ -64,7 +64,6 @@ export class GeckoTerminal {
     Object.entries(params || {}).forEach(([key, val]) =>
       url.searchParams.append(key, String(val)),
     );
-    console.log(url.toString());
 
     const res = await fetch(url, {
       headers: new Headers({
@@ -99,7 +98,6 @@ export class GeckoTerminal {
         if (page === 11) {
           break;
         }
-        await new Promise((resolve) => setTimeout(resolve, 1000));
       }
     } while (currentPagePairs.length > 0);
 

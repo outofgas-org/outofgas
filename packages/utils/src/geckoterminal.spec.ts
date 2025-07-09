@@ -62,6 +62,13 @@ describe("geckoterminal", () => {
     console.log(JSON.stringify(res, null, 2));
   }, 60000);
 
+  it("get hybra pairs", async () => {
+    const geckoTerminal = new GeckoTerminal();
+    const res = await geckoTerminal.getAllPairs("hybra-finance");
+    console.log(res.length);
+    console.log(JSON.stringify(res, null, 2));
+  }, 60000);
+
   it("get laminar pairs", async () => {
     const geckoTerminal = new GeckoTerminal();
     const res = await geckoTerminal.getPairs("laminar", 2);
