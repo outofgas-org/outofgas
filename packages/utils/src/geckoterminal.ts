@@ -64,6 +64,7 @@ export class GeckoTerminal {
     Object.entries(params || {}).forEach(([key, val]) =>
       url.searchParams.append(key, String(val)),
     );
+    console.log(url.toString());
 
     const res = await fetch(url, {
       headers: new Headers({
@@ -73,12 +74,36 @@ export class GeckoTerminal {
     });
 
     if (!res.ok) {
+      console.error(res);
       throw new Error(
-        `DexScreener fetching error: ${endpoint}: ${res.statusText}`,
+        `GeckoTerminal fetching error: ${endpoint}: ${res.statusText}`,
       );
     }
 
     return res.json();
+  }
+
+  async getAllPairs(
+    dex: string,
+    options?: Record<string, any>,
+  ): Promise<Pair[]> {
+    let page = 1;
+    let allPairs: Pair[] = [];
+    let currentPagePairs: Pair[];
+
+    do {
+      currentPagePairs = await this.getPairs(dex, page, options);
+      allPairs = allPairs.concat(currentPagePairs);
+      page++;
+      if (!this.apiKey) {
+        if (page === 11) {
+          break;
+        }
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      }
+    } while (currentPagePairs.length > 0);
+
+    return allPairs;
   }
 
   async getPairs(
@@ -114,10 +139,8 @@ export class GeckoTerminal {
           h24: d.attributes.volume_usd.h24,
         },
         tvl: d.attributes.reserve_in_usd,
-        // dex: d.relationships.dex.data.id,
         dex,
         feeTier: feeTier ? parseFloat(feeTier) * 10000 : 0,
-        apr: 0.25,
         createdAt: new Date(d.attributes.pool_created_at).getTime(),
       };
     });

@@ -12,7 +12,6 @@ export interface Pair {
     h6: string;
     h24: string;
   };
-  apr: number; // 20% => 0.2, 1.45% => 0.0145, 134% => 1.34
   tvl: string;
   dex: string;
   feeTier: number; // 0.01% => 100, 0.25% => 2500
