@@ -10,7 +10,7 @@ describe("liquidswap", () => {
     );
 
     console.log(JSON.stringify(res, null, 2));
-  }, 5000);
+  }, 60000);
   it("unwrap", async () => {
     const res = await liquidswap.getRoute(
       "0x47bb061c0204af921f43dc73c7d7768d2672ddee",
@@ -22,7 +22,11 @@ describe("liquidswap", () => {
       "0x47bb061c0204af921f43dc73c7d7768d2672ddee",
       hyperevmContracts.WETH,
       "1000",
-      true,
+      {
+        unwrapWHYPE: true,
+        feeBps: 100,
+        feeRecipient: hyperevmContracts.WETH,
+      },
     );
     console.log(JSON.stringify(res2, null, 2));
   }, 100000);

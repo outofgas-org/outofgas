@@ -6,11 +6,31 @@ export const liquidswap = {
     tokenIn: Address,
     tokenOut: Address,
     amountIn: string,
-    unwrapWHYPE: boolean = false,
-    slippage: number = 0.5,
+    options?: {
+      unwrapWHYPE?: boolean;
+      slippage?: number;
+      feeBps?: number; // 1% => 100
+      feeRecipient?: Address;
+    },
   ) => {
+    const {
+      unwrapWHYPE = false,
+      slippage = 0.5,
+      feeBps,
+      feeRecipient,
+    } = options ?? {};
+    const params = new URLSearchParams({
+      multiHop: "true",
+      tokenIn,
+      tokenOut,
+      amountIn,
+      slippage: slippage.toString(),
+      unwrapWHYPE: unwrapWHYPE.toString(),
+      ...(feeBps !== undefined && { feeBps: feeBps.toString() }),
+      ...(feeRecipient !== undefined && { feeRecipient }),
+    });
     return (await fetch(
-      `https://api.liqd.ag/v2/route?multiHop=true&tokenIn=${tokenIn}&tokenOut=${tokenOut}&amountIn=${amountIn}&slippage=${slippage}&unwrapWHYPE=${unwrapWHYPE}`,
+      `https://api.liqd.ag/v2/route?${params.toString()}`,
     ).then((res) => res.json())) as RouteResponse;
   },
 };
