@@ -119,27 +119,36 @@ export class GeckoTerminal {
     )) as GeckoTerminalGetPoolsResponse;
 
     return res.data.map((d) => {
-      const { symbol0, symbol1, feeTier } = this.parsePairName(
-        d.attributes.name,
-      );
+      const attributes = d.attributes;
+      const { symbol0, symbol1, feeTier } = this.parsePairName(attributes.name);
+
+      const baseToken = d.relationships.base_token.data.id.split("_")[1] || "";
+      const quoteToken =
+        d.relationships.quote_token.data.id.split("_")[1] || "";
+      const reversed = baseToken.toLowerCase() > quoteToken.toLowerCase();
+
       return {
         address: d.attributes.address,
-        token0: d.relationships.base_token.data.id.split("_")[1] || "",
-        token1: d.relationships.quote_token.data.id.split("_")[1] || "",
-        symbol0: symbol0 || "",
-        symbol1: symbol1 || "",
-        token0Price: d.attributes.base_token_price_usd,
-        token1Price: d.attributes.quote_token_price_usd,
+        token0: reversed ? quoteToken : baseToken,
+        token1: reversed ? baseToken : quoteToken,
+        symbol0: (reversed ? symbol1 : symbol0) || "",
+        symbol1: (reversed ? symbol0 : symbol1) || "",
+        price0: reversed
+          ? attributes.quote_token_price_usd
+          : attributes.base_token_price_usd,
+        price1: reversed
+          ? attributes.base_token_price_usd
+          : attributes.quote_token_price_usd,
         volume: {
-          m5: d.attributes.volume_usd.m5,
-          h1: d.attributes.volume_usd.h1,
-          h6: d.attributes.volume_usd.h6,
-          h24: d.attributes.volume_usd.h24,
+          m5: attributes.volume_usd.m5,
+          h1: attributes.volume_usd.h1,
+          h6: attributes.volume_usd.h6,
+          h24: attributes.volume_usd.h24,
         },
-        tvl: d.attributes.reserve_in_usd,
+        tvl: attributes.reserve_in_usd,
         dex,
         feeTier: feeTier ? parseFloat(feeTier) * 10000 : 0,
-        createdAt: new Date(d.attributes.pool_created_at).getTime(),
+        createdAt: new Date(attributes.pool_created_at).getTime(),
       };
     });
   }

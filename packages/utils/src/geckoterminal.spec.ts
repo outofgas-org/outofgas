@@ -55,7 +55,7 @@ describe("geckoterminal", () => {
     console.log(JSON.stringify(res, null, 2));
   });
 
-  it("get hybra pairs", async () => {
+  it("get hybra-v3 pairs", async () => {
     const geckoTerminal = new GeckoTerminal();
     const res = await geckoTerminal.getAllPairs("hybra-finance-v3");
     console.log(res.length);

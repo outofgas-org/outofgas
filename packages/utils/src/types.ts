@@ -4,8 +4,8 @@ export interface Pair {
   token1: string;
   symbol0: string;
   symbol1: string;
-  token0Price: string;
-  token1Price: string;
+  price0: string;
+  price1: string;
   volume: {
     m5: string;
     h1: string;
