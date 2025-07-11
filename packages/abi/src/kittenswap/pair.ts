@@ -1,4 +1,4 @@
-const kittenswapPairAbi = [
+export const kittenswapPairAbi = [
   {
     anonymous: false,
     inputs: [
