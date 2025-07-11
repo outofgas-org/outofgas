@@ -9,4 +9,7 @@ export const hyperevmContracts = {
   kittenswap: {
     PAIR_FACTORY: "0xDa12F450580A4cc485C3b501BAB7b0B3cbc3B31B" as Address,
   },
+  hybrafinance: {
+    PAIR_FACTORY: "0x9c7397c9C5ecC400992843408D3A283fE9108009" as Address,
+  },
 };
