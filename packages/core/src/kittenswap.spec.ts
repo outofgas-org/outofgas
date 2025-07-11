@@ -22,7 +22,7 @@ describe("kittenswap", () => {
   it("stable pair", async () => {
     const fee = await kittenswap.getFee(
       client,
-      "0x020c1558ebfccaec2329844802cdd1d986c232ae",
+      "0x3c1f6d843af17d0d87c6924b633cb500047b67bf",
       true,
     );
     expect(fee).toEqual(300n);
