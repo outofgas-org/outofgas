@@ -1,4 +1,6 @@
-export const quoterV2Abi = [
+import { Abi } from "viem";
+
+export const quoterV2Abi: Abi = [
   {
     inputs: [
       { internalType: "address", name: "_factory", type: "address" },
@@ -144,4 +146,4 @@ export const quoterV2Abi = [
     stateMutability: "view",
     type: "function",
   },
-] as const;
+];
