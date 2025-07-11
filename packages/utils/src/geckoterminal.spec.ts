@@ -82,4 +82,11 @@ describe("geckoterminal", () => {
     console.log(res.length);
     console.log(JSON.stringify(res, null, 2));
   }, 200000);
+
+  it("get all gliquid pairs", async () => {
+    const geckoTerminal = new GeckoTerminal();
+    const res = await geckoTerminal.getAllPairs("gliquid");
+    console.log(res.length);
+    console.log(JSON.stringify(res, null, 2));
+  }, 200000);
 });
