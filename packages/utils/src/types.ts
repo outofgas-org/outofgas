@@ -15,4 +15,5 @@ export interface Pair {
   tvl: string;
   dex: string;
   feeTier: number; // 0.01% => 100, 0.25% => 2500
+  createdAt: number;
 }
