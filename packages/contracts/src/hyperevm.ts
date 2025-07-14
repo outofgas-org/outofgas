@@ -8,6 +8,8 @@ export const hyperevmContracts = {
   },
   hyperswapV3: {
     QUOTER_V2: "0x03A918028f22D9E1473B7959C927AD7425A45C7C" as Address,
+    POSITION_MANAGER: "0x6eDA206207c09e5428F281761DdC0D300851fBC8" as Address,
+    FACTORY: "0xB1c0fa0B789320044A6F623cFe5eBda9562602E3" as Address,
   },
   kittenswap: {
     PAIR_FACTORY: "0xDa12F450580A4cc485C3b501BAB7b0B3cbc3B31B" as Address,
