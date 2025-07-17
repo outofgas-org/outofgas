@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import type { WalletClient, PublicClient, Address } from "viem";
+import { isAddress, type Address } from "viem";
 import { erc20 } from "@outofgas/core";
 import { usePublicClient, useWalletClient } from "wagmi";
 
@@ -9,12 +9,21 @@ interface UseApproveParams {
   amount: bigint;
 }
 
-export const useApprove = () => {
+interface UseApproveOptions {
+  onSuccess?: () => void;
+  onError?: (error: Error) => void;
+}
+
+export const useApprove = (options?: UseApproveOptions) => {
   const { data: walletClient } = useWalletClient();
   const publicClient = usePublicClient();
 
   return useMutation({
     mutationFn: async ({ token, spender, amount }: UseApproveParams) => {
+      if (!token || !isAddress(token)) {
+        throw new Error("Token is not valid");
+      }
+
       if (!walletClient) {
         throw new Error("wallet not connected");
       }
@@ -24,6 +33,12 @@ export const useApprove = () => {
       }
 
       return erc20.approve(walletClient, publicClient, token, spender, amount);
+    },
+    onSuccess: () => {
+      options?.onSuccess?.();
+    },
+    onError: (err) => {
+      options?.onError?.(err as Error);
     },
   });
 };
