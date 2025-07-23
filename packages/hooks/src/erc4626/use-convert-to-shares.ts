@@ -6,7 +6,7 @@ import { usePublicClient } from "wagmi";
 export const useConvertToShares = (token: Address, amount: bigint) => {
   const publicClient = usePublicClient();
   return useQuery({
-    queryKey: ["useConvertToShares", token, amount],
+    queryKey: ["useConvertToShares", token, amount.toString()],
     queryFn: async () => {
       if (!publicClient) {
         return 0n;

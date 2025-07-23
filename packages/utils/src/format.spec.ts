@@ -90,4 +90,8 @@ describe("formatPriceSubscript", () => {
   it("should handle maxDecimals correctly", () => {
     expect(formatPriceSubscript("0.0000189898797987979")).toBe("0.0₄189898");
   });
+
+  it("e", () => {
+    expect(formatPrice(1.44444e-7)).toBe("0.0₆144444");
+  });
 });

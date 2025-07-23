@@ -35,6 +35,8 @@ export function formatPrice(price: number | string | undefined | null): string {
 
   const p = Number(price);
 
+  if (isNaN(p)) return "0.00";
+
   if (p >= 10000) {
     return numeral(p).format("0,0");
   }
@@ -62,7 +64,9 @@ export const formatPriceSubscript = (
   num: number | string,
   maxDecimals = 6,
 ): string => {
-  const str = typeof num === "number" ? num.toString() : num;
+  const numValue = typeof num === "number" ? num : Number(num);
+  const str = numValue.toFixed(20).replace(/\.?0+$/, "");
+
   if (!str.includes(".")) return str;
 
   const match = str.match(/\.?(0+)([1-9].*)/);
