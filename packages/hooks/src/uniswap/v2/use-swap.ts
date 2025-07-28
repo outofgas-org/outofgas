@@ -4,21 +4,18 @@ import {
   useWaitForTransactionReceipt,
   useWriteContract,
 } from "wagmi";
-import { Address, zeroAddress } from "viem";
+import { Address, isAddressEqual } from "viem";
 import { uniswapV2RouterAbi } from "@outofgas/abi";
-import { getContract } from "@outofgas/contracts";
 
 export const useUniswapV2Swap = (
-  chainId: number,
   router: Address,
+  weth: Address,
   tokenIn: Address,
   tokenOut: Address,
   amountIn: bigint,
   minAmountOut: bigint,
   onSuccess: (hash: `0x${string}`) => void,
 ) => {
-  const contracts = getContract(chainId);
-  const weth = contracts?.WETH ?? zeroAddress;
   const { address } = useAccount();
   const { writeContract, isPending, data: hash } = useWriteContract();
   const { isSuccess, isLoading } = useWaitForTransactionReceipt({ hash });
@@ -34,15 +31,15 @@ export const useUniswapV2Swap = (
   const swap = async () => {
     successCalledRef.current = null;
     const deadline = BigInt(Math.floor(Date.now() / 1000) + 60 * 30);
-    if (tokenIn === zeroAddress) {
+    if (isAddressEqual(tokenIn, weth)) {
       writeContract({
         abi: uniswapV2RouterAbi,
         address: router,
         functionName: "swapExactETHForTokens",
-        args: [minAmountOut, [weth, tokenOut], address as Address, deadline],
+        args: [minAmountOut, [tokenIn, tokenOut], address as Address, deadline],
         value: amountIn,
       });
-    } else if (tokenOut === zeroAddress) {
+    } else if (isAddressEqual(tokenOut, weth)) {
       writeContract({
         abi: uniswapV2RouterAbi,
         address: router,
@@ -50,7 +47,7 @@ export const useUniswapV2Swap = (
         args: [
           amountIn,
           minAmountOut,
-          [tokenIn, zeroAddress === tokenOut ? weth : tokenOut],
+          [tokenIn, tokenOut],
           address as Address,
           deadline,
         ],

@@ -1,7 +1,6 @@
-import { Address, zeroAddress } from "viem";
+import { Address } from "viem";
 import { useUniswapV2GetPair } from "./use-get-pair.js";
 import { useUniswapV2Reverses } from "./use-reverses.js";
-import { getContract } from "@outofgas/contracts";
 
 export function getAmountOut(
   amountIn: bigint,
@@ -25,14 +24,12 @@ export const useUniswapV2Quote = (
   tokenOut: Address,
   amountIn: bigint,
 ) => {
-  const contracts = getContract(chainId);
-  const weth = contracts?.WETH ?? zeroAddress;
-
-  const t0 = tokenIn === zeroAddress ? weth : tokenIn;
-  const t1 = tokenOut === zeroAddress ? weth : tokenOut;
-  const [token0] = t0.toLowerCase() < t1.toLowerCase() ? [t0, t1] : [t1, t0];
+  const [token0] =
+    tokenIn.toLowerCase() < tokenOut.toLowerCase()
+      ? [tokenIn, tokenOut]
+      : [tokenOut, tokenIn];
   const isReversed = tokenIn.toLowerCase() !== token0.toLowerCase();
-  const { pair } = useUniswapV2GetPair(chainId, factory, tokenIn, tokenOut);
+  const { pair } = useUniswapV2GetPair(factory, tokenIn, tokenOut);
   const { reserve0, reserve1 } = useUniswapV2Reverses(pair);
 
   return isReversed
