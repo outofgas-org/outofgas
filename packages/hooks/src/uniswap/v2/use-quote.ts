@@ -18,7 +18,6 @@ export function getAmountOut(
 }
 
 export const useUniswapV2Quote = (
-  chainId: number,
   factory: Address,
   tokenIn: Address,
   tokenOut: Address,
