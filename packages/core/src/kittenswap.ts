@@ -6,7 +6,7 @@ export const kittenswap = {
   getFee: async (client: PublicClient, pair: Address, isStable: boolean) => {
     return client.readContract({
       abi: kittenswapPairFactoryAbi,
-      address: hyperevmContracts.kittenswap.PAIR_FACTORY,
+      address: hyperevmContracts.kittenswap.PairFactory,
       functionName: "getFee",
       args: [pair, isStable],
     });
