@@ -1,19 +1,27 @@
 import numeral from "numeral";
 import humanFormat from "human-format";
 
-export function ellipseAddress(
-  address: string | null | undefined,
-  width = 6,
-): string {
-  if (!address) {
-    return "";
+
+/**
+ * Shortens an identifier string by showing only the beginning and end portions,
+ * with ellipsis in the middle. Suitable for various types of identifiers like
+ * IPFS CID, transaction hashes, EVM addresses, user IDs, etc.
+ *
+ * @param id - The identifier string to shorten
+ * @param startWidth - Number of characters to show at the start (default: 6)
+ * @param endWidth - Number of characters to show at the end (default: 6)
+ * @returns Shortened identifier string with ellipsis, or empty string if id is null/undefined
+ */
+export function shortenId(id: string | null | undefined, startWidth = 6, endWidth = 6): string {
+  if (!id) {
+    return '';
   }
 
-  if (width === -1) {
-    return address;
+  if (startWidth === -1 || endWidth === -1) {
+    return id;
   }
 
-  return `${address.slice(0, width)}...${address.slice(-width)}`;
+  return `${id.slice(0, startWidth)}...${id.slice(-endWidth)}`;
 }
 
 /**

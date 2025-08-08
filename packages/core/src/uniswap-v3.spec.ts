@@ -6,6 +6,20 @@ import { hyperevmContracts } from '@outofgas/contracts';
   return this.toString();
 };
 describe('uniswap v3', () => {
+  it('get user positions with uniswap v3', async () => {
+    const client = createPublicClient({
+      chain: hyperevm,
+      transport: http(),
+    });
+    const positions = await uniswapV3.getUserPositionsWithPools(
+      client,
+      hyperevmContracts.hyperswapV3.NonfungiblePositionManager,
+      hyperevmContracts.hyperswapV3.Factory,
+      '0x1df7272534A56fBe1994d982f995D04B9cE3A959',
+    );
+
+    console.log(positions.filter((p) => p.liquidity > 0n));
+  }, 5000);
   it('get user positions', async () => {
     const client = createPublicClient({
       chain: hyperevm,
