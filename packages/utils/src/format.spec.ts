@@ -1,4 +1,4 @@
-import { shortenId, formatPrice, formatPriceSubscript } from './format';
+import { shortenId, formatPrice, formatPriceSubscript, formatWithSignificant } from './format';
 
 describe('ellipseAddress', () => {
   it('should return an empty string for null or undefined address', () => {
@@ -94,5 +94,31 @@ describe('formatPriceSubscript', () => {
 
   it('e', () => {
     expect(formatPrice(1.44444e-7)).toBe('0.0₆144444');
+  });
+});
+
+describe('formatWithSignificant', () => {
+  it('should handle zero values', () => {
+    expect(formatWithSignificant(0)).toBe('0');
+  });
+
+  it('should format numbers >= 1 with fixed decimal places', () => {
+    expect(formatWithSignificant(1.2345)).toBe('1.23');
+    expect(formatWithSignificant(123.456)).toBe('123.46');
+  });
+
+  it('should format numbers < 1 with significant digits', () => {
+    expect(formatWithSignificant(0.123456)).toBe('0.12');
+    expect(formatWithSignificant(0.000123)).toBe('0.00012');
+  });
+
+  it('should handle string inputs', () => {
+    expect(formatWithSignificant('1.2345')).toBe('1.23');
+    expect(formatWithSignificant('0.123456')).toBe('0.12');
+  });
+
+  it('should respect custom decimal and significant digit parameters', () => {
+    expect(formatWithSignificant(1.2345, 3)).toBe('1.234');
+    expect(formatWithSignificant(0.123456, 2, 3)).toBe('0.123');
   });
 });

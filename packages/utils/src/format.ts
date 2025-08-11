@@ -1,6 +1,5 @@
-import numeral from "numeral";
-import humanFormat from "human-format";
-
+import numeral from 'numeral';
+import humanFormat from 'human-format';
 
 /**
  * Shortens an identifier string by showing only the beginning and end portions,
@@ -39,43 +38,40 @@ export function shortenId(id: string | null | undefined, startWidth = 6, endWidt
  * @returns Formatted price string
  */
 export function formatPrice(price: number | string | undefined | null): string {
-  if (!price) return "0.00";
+  if (!price) return '0.00';
 
   const p = Number(price);
 
-  if (isNaN(p)) return "0.00";
+  if (isNaN(p)) return '0.00';
 
   if (p >= 10000) {
-    return numeral(p).format("0,0");
+    return numeral(p).format('0,0');
   }
 
   if (p >= 1) {
-    return numeral(p).format("0,0.00");
+    return numeral(p).format('0,0.00');
   }
 
   if (p >= 0.1) {
-    return numeral(p).format("0,0.0000");
+    return numeral(p).format('0,0.0000');
   }
 
   if (p >= 0.01) {
-    return numeral(p).format("0,0.00000");
+    return numeral(p).format('0,0.00000');
   }
 
   if (p >= 0.001) {
-    return numeral(p).format("0,0.000000");
+    return numeral(p).format('0,0.000000');
   }
 
   return formatPriceSubscript(price, 6);
 }
 
-export const formatPriceSubscript = (
-  num: number | string,
-  maxDecimals = 6,
-): string => {
-  const numValue = typeof num === "number" ? num : Number(num);
-  const str = numValue.toFixed(20).replace(/\.?0+$/, "");
+export const formatPriceSubscript = (num: number | string, maxDecimals = 6): string => {
+  const numValue = typeof num === 'number' ? num : Number(num);
+  const str = numValue.toFixed(20).replace(/\.?0+$/, '');
 
-  if (!str.includes(".")) return str;
+  if (!str.includes('.')) return str;
 
   const match = str.match(/\.?(0+)([1-9].*)/);
   if (!match || match.length <= 1) return str;
@@ -88,22 +84,22 @@ export const formatPriceSubscript = (
 
 const subscript = (num: number): string => {
   const map: Record<string, string> = {
-    "0": "₀",
-    "1": "₁",
-    "2": "₂",
-    "3": "₃",
-    "4": "₄",
-    "5": "₅",
-    "6": "₆",
-    "7": "₇",
-    "8": "₈",
-    "9": "₉",
+    '0': '₀',
+    '1': '₁',
+    '2': '₂',
+    '3': '₃',
+    '4': '₄',
+    '5': '₅',
+    '6': '₆',
+    '7': '₇',
+    '8': '₈',
+    '9': '₉',
   };
   return num
     .toString()
-    .split("")
+    .split('')
     .map((d) => map[d])
-    .join("");
+    .join('');
 };
 
 export const humanScale = new humanFormat.Scale({
@@ -121,17 +117,35 @@ export const humanScale = new humanFormat.Scale({
  * @param options - Additional formatting options to pass to human-format
  * @returns Formatted string with appropriate scale indicator
  */
-export function formatHuman(
-  value: number | string | undefined,
-  options?: object,
-) {
+export function formatHuman(value: number | string | undefined, options?: object) {
   const num = Number(value || 0);
 
   if (num < 1000) return num.toString();
 
-  return humanFormat(Number(value || "0"), {
+  return humanFormat(Number(value || '0'), {
     scale: humanScale,
-    separator: "",
+    separator: '',
     ...options,
   });
+}
+
+/**
+ * Formats a number with either fixed decimal places or significant digits based on its magnitude.
+ * For numbers >= 1, uses fixed decimal places.
+ * For numbers < 1, uses significant digits to maintain precision.
+ *
+ * @param num - The number to format (can be number or string)
+ * @param decimals - Number of decimal places to use for values >= 1 (default: 2)
+ * @param significant - Number of significant digits to use for values < 1 (default: 2)
+ * @returns Formatted number as a string
+ */
+export function formatWithSignificant(num: number | string, decimals = 2, significant = 2): string {
+  const n = Number(num);
+  if (n === 0) return '0';
+
+  if (Math.abs(n) >= 1) {
+    return n.toFixed(decimals);
+  } else {
+    return Number(n.toPrecision(significant)).toString();
+  }
 }
