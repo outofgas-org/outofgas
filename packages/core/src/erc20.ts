@@ -41,31 +41,29 @@ const calls = {
 };
 
 const writes = {
-  approve: (token: Address, spender: Address, amount: bigint): Omit<WriteContractParameters, 'account' | 'chain'> => ({
-    abi: erc20Abi,
-    address: token,
-    functionName: 'approve',
-    args: [spender, amount],
-  }),
+  approve: (token: Address, spender: Address, amount: bigint) =>
+    ({
+      abi: erc20Abi,
+      address: token,
+      functionName: 'approve',
+      args: [spender, amount],
+    }) as const,
 
-  transfer: (token: Address, to: Address, amount: bigint): Omit<WriteContractParameters, 'account' | 'chain'> => ({
-    abi: erc20Abi,
-    address: token,
-    functionName: 'transfer',
-    args: [to, amount],
-  }),
+  transfer: (token: Address, to: Address, amount: bigint) =>
+    ({
+      abi: erc20Abi,
+      address: token,
+      functionName: 'transfer',
+      args: [to, amount],
+    }) as const,
 
-  transferFrom: (
-    token: Address,
-    from: Address,
-    to: Address,
-    amount: bigint,
-  ): Omit<WriteContractParameters, 'account' | 'chain'> => ({
-    abi: erc20Abi,
-    address: token,
-    functionName: 'transferFrom',
-    args: [from, to, amount],
-  }),
+  transferFrom: (token: Address, from: Address, to: Address, amount: bigint) =>
+    ({
+      abi: erc20Abi,
+      address: token,
+      functionName: 'transferFrom',
+      args: [from, to, amount],
+    }) as const,
 };
 
 export const erc20 = {
