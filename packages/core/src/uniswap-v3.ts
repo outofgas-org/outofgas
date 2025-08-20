@@ -1,5 +1,10 @@
 import { Address, PublicClient, ReadContractParameters } from 'viem';
-import { uniswapV3FactoryAbi, uniswapV3PoolAbi, uniswapV3PositionManagerAbi } from '@outofgas/abi';
+import {
+  uniswapV3FactoryAbi,
+  uniswapV3PoolAbi,
+  uniswapV3PositionManagerAbi,
+  uniswapV3SwapRouterAbi,
+} from '@outofgas/abi';
 
 export interface UniswapV3Position {
   tokenId: bigint;
@@ -28,7 +33,9 @@ export interface UniswapV3PositionWithPoolState extends UniswapV3Position {
   poolState?: PoolState;
 }
 
+// ==================== READ CALLS ====================
 const calls = {
+  // Position Manager calls
   balanceOf: (positionManager: Address, owner: Address) =>
     ({
       abi: uniswapV3PositionManagerAbi,
@@ -99,7 +106,112 @@ const calls = {
     }) as const,
 };
 
+// ==================== WRITE BUILDERS ====================
 const writes = {
+  // SwapRouter
+  exactInputSingle: (
+    swapRouter: Address,
+    tokenIn: Address,
+    tokenOut: Address,
+    fee: number,
+    recipient: Address,
+    deadline: bigint,
+    amountIn: bigint,
+    amountOutMinimum: bigint,
+    sqrtPriceLimitX96: bigint,
+  ) =>
+    ({
+      abi: uniswapV3SwapRouterAbi,
+      address: swapRouter,
+      functionName: 'exactInputSingle',
+      args: [
+        {
+          tokenIn,
+          tokenOut,
+          fee,
+          recipient,
+          deadline,
+          amountIn,
+          amountOutMinimum,
+          sqrtPriceLimitX96,
+        },
+      ],
+    }) as const,
+  exactInput: (
+    swapRouter: Address,
+    path: string,
+    recipient: Address,
+    deadline: bigint,
+    amountIn: bigint,
+    amountOutMinimum: bigint,
+  ) =>
+    ({
+      abi: uniswapV3SwapRouterAbi,
+      address: swapRouter,
+      functionName: 'exactInput',
+      args: [
+        {
+          path,
+          recipient,
+          deadline,
+          amountIn,
+          amountOutMinimum,
+        },
+      ],
+    }) as const,
+
+  exactOutputSingle: (
+    swapRouter: Address,
+    tokenIn: Address,
+    tokenOut: Address,
+    fee: number,
+    recipient: Address,
+    deadline: bigint,
+    amountOut: bigint,
+    amountInMaximum: bigint,
+    sqrtPriceLimitX96: bigint,
+  ) =>
+    ({
+      abi: uniswapV3SwapRouterAbi,
+      address: swapRouter,
+      functionName: 'exactOutputSingle',
+      args: [
+        {
+          tokenIn,
+          tokenOut,
+          fee,
+          recipient,
+          deadline,
+          amountOut,
+          amountInMaximum,
+          sqrtPriceLimitX96,
+        },
+      ],
+    }) as const,
+
+  exactOutput: (
+    swapRouter: Address,
+    path: string,
+    recipient: Address,
+    deadline: bigint,
+    amountOut: bigint,
+    amountInMaximum: bigint,
+  ) =>
+    ({
+      abi: uniswapV3SwapRouterAbi,
+      address: swapRouter,
+      functionName: 'exactOutput',
+      args: [
+        {
+          path,
+          recipient,
+          deadline,
+          amountOut,
+          amountInMaximum,
+        },
+      ],
+    }) as const,
+
   // Position Manager writes
   mint: (
     positionManager: Address,
@@ -208,10 +320,12 @@ const writes = {
     }) as const,
 };
 
+// ==================== MAIN EXPORT ====================
 export const uniswapV3 = {
   calls,
   writes,
 
+  // ==================== CONVENIENCE METHODS ====================
   getUserPositions: async (
     client: PublicClient,
     positionManager: Address,
