@@ -1,38 +1,74 @@
-import { Address, erc20Abi, PublicClient, WalletClient } from 'viem';
+import { Address, erc20Abi, ReadContractParameters, WriteContractParameters } from 'viem';
+
+const calls = {
+  allowance: (token: Address, owner: Address, spender: Address): ReadContractParameters => ({
+    abi: erc20Abi,
+    address: token,
+    functionName: 'allowance',
+    args: [owner, spender],
+  }),
+
+  balanceOf: (token: Address, account: Address): ReadContractParameters => ({
+    abi: erc20Abi,
+    address: token,
+    functionName: 'balanceOf',
+    args: [account],
+  }),
+
+  totalSupply: (token: Address): ReadContractParameters => ({
+    abi: erc20Abi,
+    address: token,
+    functionName: 'totalSupply',
+  }),
+
+  decimals: (token: Address): ReadContractParameters => ({
+    abi: erc20Abi,
+    address: token,
+    functionName: 'decimals',
+  }),
+
+  symbol: (token: Address): ReadContractParameters => ({
+    abi: erc20Abi,
+    address: token,
+    functionName: 'symbol',
+  }),
+
+  name: (token: Address): ReadContractParameters => ({
+    abi: erc20Abi,
+    address: token,
+    functionName: 'name',
+  }),
+};
+
+const writes = {
+  approve: (token: Address, spender: Address, amount: bigint): Omit<WriteContractParameters, 'account' | 'chain'> => ({
+    abi: erc20Abi,
+    address: token,
+    functionName: 'approve',
+    args: [spender, amount],
+  }),
+
+  transfer: (token: Address, to: Address, amount: bigint): Omit<WriteContractParameters, 'account' | 'chain'> => ({
+    abi: erc20Abi,
+    address: token,
+    functionName: 'transfer',
+    args: [to, amount],
+  }),
+
+  transferFrom: (
+    token: Address,
+    from: Address,
+    to: Address,
+    amount: bigint,
+  ): Omit<WriteContractParameters, 'account' | 'chain'> => ({
+    abi: erc20Abi,
+    address: token,
+    functionName: 'transferFrom',
+    args: [from, to, amount],
+  }),
+};
 
 export const erc20 = {
-  allowance: async (publicClient: PublicClient, token: Address, owner: Address, spender: Address) => {
-    return await publicClient.readContract({
-      abi: erc20Abi,
-      address: token,
-      functionName: 'allowance',
-      args: [owner, spender],
-    });
-  },
-  approve: async (
-    walletClient: WalletClient,
-    publicClient: PublicClient,
-    token: Address,
-    spender: Address,
-    amount: bigint,
-    options?: {
-      gasLimit?: bigint;
-    },
-  ) => {
-    if (!walletClient.account) {
-      throw new Error('wallet account not found');
-    }
-
-    const hash = await walletClient.writeContract({
-      abi: erc20Abi,
-      address: token,
-      functionName: 'approve',
-      args: [spender, amount],
-      chain: walletClient.chain,
-      account: walletClient.account,
-      ...(options?.gasLimit && { gas: options.gasLimit }),
-    });
-
-    return publicClient.waitForTransactionReceipt({ hash });
-  },
+  calls,
+  writes,
 };
