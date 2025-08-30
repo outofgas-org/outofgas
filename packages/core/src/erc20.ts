@@ -1,4 +1,4 @@
-import { Address, erc20Abi, ReadContractParameters, WriteContractParameters } from 'viem';
+import { Address, erc20Abi } from 'viem';
 
 const calls = {
   allowance: (token: Address, owner: Address, spender: Address) =>
