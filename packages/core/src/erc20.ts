@@ -1,43 +1,49 @@
 import { Address, erc20Abi, ReadContractParameters, WriteContractParameters } from 'viem';
 
 const calls = {
-  allowance: (token: Address, owner: Address, spender: Address): ReadContractParameters => ({
-    abi: erc20Abi,
-    address: token,
-    functionName: 'allowance',
-    args: [owner, spender],
-  }),
+  allowance: (token: Address, owner: Address, spender: Address) =>
+    ({
+      abi: erc20Abi,
+      address: token,
+      functionName: 'allowance',
+      args: [owner, spender],
+    }) as const,
 
-  balanceOf: (token: Address, account: Address): ReadContractParameters => ({
-    abi: erc20Abi,
-    address: token,
-    functionName: 'balanceOf',
-    args: [account],
-  }),
+  balanceOf: (token: Address, account: Address) =>
+    ({
+      abi: erc20Abi,
+      address: token,
+      functionName: 'balanceOf',
+      args: [account],
+    }) as const,
 
-  totalSupply: (token: Address): ReadContractParameters => ({
-    abi: erc20Abi,
-    address: token,
-    functionName: 'totalSupply',
-  }),
+  totalSupply: (token: Address) =>
+    ({
+      abi: erc20Abi,
+      address: token,
+      functionName: 'totalSupply',
+    }) as const,
 
-  decimals: (token: Address): ReadContractParameters => ({
-    abi: erc20Abi,
-    address: token,
-    functionName: 'decimals',
-  }),
+  decimals: (token: Address) =>
+    ({
+      abi: erc20Abi,
+      address: token,
+      functionName: 'decimals',
+    }) as const,
 
-  symbol: (token: Address): ReadContractParameters => ({
-    abi: erc20Abi,
-    address: token,
-    functionName: 'symbol',
-  }),
+  symbol: (token: Address) =>
+    ({
+      abi: erc20Abi,
+      address: token,
+      functionName: 'symbol',
+    }) as const,
 
-  name: (token: Address): ReadContractParameters => ({
-    abi: erc20Abi,
-    address: token,
-    functionName: 'name',
-  }),
+  name: (token: Address) =>
+    ({
+      abi: erc20Abi,
+      address: token,
+      functionName: 'name',
+    }) as const,
 };
 
 const writes = {
