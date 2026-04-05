@@ -1,0 +1,4 @@
+interface:
+  display_name: "OutOfGas Utils"
+  short_description: "Guide for the packages/utils workspace"
+  default_prompt: "Use $outofgas-utils to update shared helpers in packages/utils and keep tests in sync."
