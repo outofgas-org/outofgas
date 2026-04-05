@@ -1,6 +1,6 @@
 ---
 name: outofgas-utils
-description: Guide for the `packages/utils` workspace in the OutOfGas monorepo. Use when editing shared helpers for formatting, explorer URLs, HyperEVM utilities, clipboard helpers, or market-data integrations such as DexScreener and GeckoTerminal.
+description: Guide for the `packages/utils` workspace in the OutOfGas monorepo. Use when editing shared helpers for formatting, explorer URLs, HyperEVM utilities, clipboard helpers, async timing helpers, or market-data integrations such as DexScreener and GeckoTerminal.
 ---
 
 # Outofgas Utils
@@ -15,6 +15,7 @@ Use this skill for generic shared helpers in `packages/utils`. This package is t
 - explorer helpers in `explorer.ts`
 - HyperEVM helpers in `hyperevm.ts`
 - clipboard helpers in `clipboard.ts`
+- async timing helpers in `sleep.ts`
 - market-data integrations in `dexscreener.ts` and `geckoterminal.ts`
 - shared types in `types.ts`
 
@@ -44,6 +45,10 @@ Use the existing helpers before adding new utility APIs.
 
 - `copyToClipboard(text, cb)`: Copy text with `navigator.clipboard` when available and fall back to `document.execCommand('copy')`.
 - `pasteFromClipboard(cb)`: Read clipboard text with async browser APIs when available and fall back to a paste-capable textarea flow.
+
+### `sleep.ts`
+
+- `sleep(ms)`: Return a promise that resolves after `ms` milliseconds for simple async pacing and retry flows.
 
 ### `dexscreener.ts`
 
